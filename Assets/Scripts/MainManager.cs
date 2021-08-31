@@ -67,7 +67,10 @@ public class MainManager : MonoBehaviour
 
     void UpdateBestScore()
     {
-        BestScoreText.text = $"Best Score : 0 | {DataManager.Instance.PlayerName} : 0";
+        int highScore = DataManager.Instance.HighScore;
+        string highScoreName = DataManager.Instance.HighScorePlayerName;
+
+        BestScoreText.text = $"Best Score of {highScore} goes to {highScoreName}";
     }
 
     void AddPoint(int point)
@@ -80,5 +83,12 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        int highScore = DataManager.Instance.HighScore;
+        if (m_Points > highScore)
+        {
+            DataManager.Instance.HighScore = m_Points;
+            DataManager.Instance.HighScorePlayerName = DataManager.Instance.PlayerName;
+            DataManager.Instance.SaveHighScore();
+        }
     }
 }

@@ -9,11 +9,22 @@ using TMPro;
 [DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour
 {
-    [SerializeField] TMP_InputField textArea;
+    [SerializeField] TMP_Text BestScoreText;
+    [SerializeField] TMP_InputField NameInputTextArea;
+
+    private void Start()
+    {
+        int highScore = DataManager.Instance.HighScore;
+        string highScoreName = DataManager.Instance.HighScorePlayerName;
+
+        BestScoreText.text = $"Best Score of {highScore} goes to {highScoreName}";
+        NameInputTextArea.text = DataManager.Instance.PlayerName;
+    }
 
     public void StartNew()
     {
-        DataManager.Instance.PlayerName = textArea.text;
+        DataManager.Instance.PlayerName = NameInputTextArea.text;
+        DataManager.Instance.SaveLastPlayer();
         SceneManager.LoadScene(1);
     }
 }
